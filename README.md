@@ -6,7 +6,7 @@ payments and use this.
 
 ## What Does It Do?
 Nothing much, once setup it will serve the local time (in UTC) as well as the weather (read from the
-[Government of Canada's weather site] (https://weather.gc.ca/forecast/canada/index_e.html?id=ON))
+[Government of Canada's weather site](https://weather.gc.ca/forecast/canada/index_e.html?id=ON))
 
 ## Setup & Installation
 ```
