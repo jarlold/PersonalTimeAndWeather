@@ -1,12 +1,13 @@
 # encoding=utf8
-
 import time
 from datetime import datetime
 import json
+from string import join
+import requests
 
 import flask
 from flask import Flask, render_template
-from markupsafe import escape
+#from markupsafe import escape
 
 import weather_stealer
 
@@ -40,9 +41,15 @@ def times():
 
 
 
-@app.route("/weather/<location>")
-def weather(location):
-    return location
+@app.route("/weather/<province>/<city>")
+def weather(province, city):
+    desc = weather_stealer.check_weather(city, province)
+
+    desc = json.dumps(desc)
+    resp = flask.Response(str(desc))
+    resp.headers["Content-Type"] = "application/json"
+
+    return resp
 
 
 
