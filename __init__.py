@@ -7,7 +7,6 @@ import requests
 
 import flask
 from flask import Flask, render_template
-#from markupsafe import escape
 
 import weather_stealer
 
@@ -53,4 +52,4 @@ def weather(province, city):
 
 
 
-
+app.run()

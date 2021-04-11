@@ -3,7 +3,10 @@ import unicodedata
 import requests
 from lxml import html
 import mechanize
+import time
 
+# Store as (Province, City): (Time, Weather)
+weather_cache = {}
 
 def convert_accents(s): 
     # There's an inefficiency here, where we convert the incoming string to UTF-8, so that we know what encoding it's
@@ -44,6 +47,11 @@ def check_weather(city, province):
     If you're lazy, the strings can be copy pasted from:
     https://weather.gc.ca/forecast/canada/index_e.html?id=QC
     """
+    if (province, city) in weather_cache:
+        if  time.time() - weather_cache[(province, city)][0] <= 60:
+            print("Returning cached weather")
+            return weather_cache[(province, city)][1]
+
     page_content = get_weather_page(city, province)
     page = html.fromstring(page_content)
     desc = page.xpath("//dd[@class=\"mrgn-bttm-0\"]/text()")
@@ -56,6 +64,9 @@ def check_weather(city, province):
         "wind": wind[1] + "km/h"
 
         }
+
+    weather_cache[(province, city)] = (time.time(), organized_description)
+    print("Caching weather...")
 
     return organized_description
 
